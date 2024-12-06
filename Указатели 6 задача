@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+int countNonZeroElements(int arr[], int size) {
+    int left = 0;
+    int right = size - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] != 0) {
+            left = mid + 1; 
+        } else {
+            right = mid - 1; 
+        }
+    }
+
+    return left;
+}
+
+int main() {
+    int a[1000] = {2, 3, 7, 9, 10, 0, 0, 0, 0, 0}; 
+
+    int count = countNonZeroElements(a, 1000);
+    cout << "Количество ненулевых элементов: " << count << endl;
+
+    return 0;
+}
