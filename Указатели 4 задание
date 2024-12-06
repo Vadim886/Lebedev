@@ -1,0 +1,48 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+bool isBalanced(const string& str) {
+    stack<char> s;
+
+    for (char ch : str) {
+        if (ch == '(' || ch == '{' || ch == '[') {
+            s.push(ch);
+        }
+        else if (ch == ')' || ch == '}' || ch == ']') {
+            if (s.empty()) {
+                return false;
+            }
+            char top = s.top();
+            s.pop();
+            if ((ch == ')' && top != '(') ||
+                (ch == '}' && top != '{') ||
+                (ch == ']' && top != '[')) {
+                return false;
+            }
+        }
+    }
+
+    return s.empty();
+}
+
+int main() {
+    string input;
+
+    cout << "Введите строку (максимальная длина 80 символов): ";
+    getline(cin, input);
+
+    if (input.length() > 80) {
+        cout << "Ошибка: строка превышает максимальную длину в 80 символов." << endl;
+        return 1;
+    }
+
+    if (isBalanced(input)) {
+        cout << "Скобки расставлены корректно." << endl;
+    } else {
+        cout << "Скобки расставлены некорректно." << endl;
+    }
+
+    return 0;
+}
