@@ -1,47 +1,52 @@
 #include <iostream>
-#include <stack>
 #include <string>
 using namespace std;
 
 bool isBalanced(const string& str) {
-    stack<char> s;
+    char stack[80]; 
+    int top = -1;
 
     for (char ch : str) {
         if (ch == '(' || ch == '{' || ch == '[') {
-            s.push(ch);
+            if (top < 79) { 
+                stack[++top] = ch; 
+            }
+            else {
+                return false; 
+            }
         }
         else if (ch == ')' || ch == '}' || ch == ']') {
-            if (s.empty()) {
-                return false;
+            if (top == -1) {
+                return false; 
             }
-            char top = s.top();
-            s.pop();
-            if ((ch == ')' && top != '(') ||
-                (ch == '}' && top != '{') ||
-                (ch == ']' && top != '[')) {
-                return false;
+            char topChar = stack[top--];
+            if ((ch == ')' && topChar != '(') ||
+                (ch == '}' && topChar != '{') ||
+                (ch == ']' && topChar != '[')) {
+                return false; 
             }
         }
     }
 
-    return s.empty();
+    return top == -1;
 }
 
 int main() {
     string input;
 
-    cout << "Введите строку (максимальная длина 80 символов): ";
+    cout << "Enter a string (maximum length 80 characters): ";
     getline(cin, input);
 
     if (input.length() > 80) {
-        cout << "Ошибка: строка превышает максимальную длину в 80 символов." << endl;
+        cout << "Error: the string exceeds the maximum length of 80 characters." << endl;
         return 1;
     }
 
     if (isBalanced(input)) {
-        cout << "Скобки расставлены корректно." << endl;
-    } else {
-        cout << "Скобки расставлены некорректно." << endl;
+        cout << "The brackets are placed correctly." << endl;
+    }
+    else {
+        cout << "The brackets are placed incorrectly." << endl;
     }
 
     return 0;
