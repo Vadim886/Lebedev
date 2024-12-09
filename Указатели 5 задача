@@ -1,46 +1,49 @@
 #include <iostream>
-#include <stack>
 #include <string>
 using namespace std;
 
 string replaceBrackets(const string& expression) {
-    stack<char> levels;
     string result;
     int currentLevel = 0;
 
     for (char ch : expression) {
         if (ch == '(') {
             currentLevel++;
-            levels.push('(');
             if (currentLevel == 1) {
                 result += '{';
-            } else if (currentLevel == 2) {
+            }
+            else if (currentLevel == 2) {
                 result += '[';
-            } else {
+            }
+            else {
                 result += '(';
             }
-        } else if (ch == ')') {
+        }
+        else if (ch == ')') {
             if (currentLevel > 0) {
-                currentLevel--;
-                if (currentLevel == 0) {
+                if (currentLevel == 1) {
                     result += '}';
-                } else if (currentLevel == 1) {
-                    result += ']'; 
-                } else {
-                    result += ')'; 
                 }
-                levels.pop();
-            } else {
-                cerr << "Ошибка: некорректное использование скобок." << endl;
+                else if (currentLevel == 2) {
+                    result += ']';
+                }
+                else {
+                    result += ')';
+                }
+                currentLevel--;
+            }
+            else {
+                cerr << "Error: incorrect use of parentheses." << endl;
                 return "";
             }
-        } else {
+        }
+        else {
             result += ch;
         }
     }
 
     if (currentLevel > 0) {
-        cerr << "Ошибка: некорректное использование скобок." << endl;
+        cerr << "Error: incorrect use of parentheses." << endl;
         return "";
     }
 
@@ -50,13 +53,13 @@ string replaceBrackets(const string& expression) {
 int main() {
     string input;
 
-    cout << "Введите арифметическое выражение: ";
+    cout << "Enter an arithmetic expression: ";
     getline(cin, input);
 
     string output = replaceBrackets(input);
 
     if (!output.empty()) {
-        cout << "Исправленное выражение: " << output << endl;
+        cout << "Corrected expression: " << output << endl;
     }
 
     return 0;
