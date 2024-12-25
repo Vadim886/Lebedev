@@ -1,0 +1,49 @@
+#include <iostream>
+#include <fstream>
+#include <Windows.h>
+
+using namespace std;
+
+bool isThreaten(int qx1, int qy1, int qx2, int qy2) {
+    return (qx1 == qx2) || (qy1 == qy2) || (qx1 - qx2 == qy1 - qy2) || (qx2 - qx1 == qy1 - qy2);
+}
+
+void writePair(ofstream& out, int qx1, int qy1, int qx2, int qy2) 
+{
+    char qv1 = (qx1 - 1) + 'a';
+    char qv2 = (qx2 - 1) + 'a';
+    out << qv1 << qy1 << '-' << qv2 << qy2 << endl;
+}
+
+int main() {
+    
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);// Для того чтобы русский язык был виден нормально
+
+    int qx1, qy1, qx2, qy2;
+
+    cout << "Введите координаты первого ферзя (x y): ";
+    cin >> qx1 >> qy1;
+    cout << "Введите координаты второго ферзя (x y): ";
+    cin >> qx2 >> qy2;
+
+    // Проверка, угрожают ли ферзи друг другу
+    if (isThreaten(qx1, qy1, qx2, qy2)) {
+        cout << "Ферзи угрожают друг другу." << endl;
+    }
+    else {
+        cout << "Ферзи не угрожают друг другу." << endl;
+    }
+
+    ofstream out("output.txt");
+    if (out.is_open()) {
+        writePair(out, qx1, qy1, qx2, qy2);
+        out.close();
+        cout << "Результат записан в файл output.txt." << endl;
+    }
+    else {
+        cout << "Не удалось открыть файл для записи." << endl;
+    }
+
+    return 0;
+}
